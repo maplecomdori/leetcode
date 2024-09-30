@@ -1,6 +1,34 @@
 class Solution:
     def longestConsecutive(self, nums: List[int]) -> int:
+        # two way solution
+        all = set(nums)
+        visited = set()
+        max_val = 0
 
+        for n in nums:
+            if n in visited:
+                continue
+
+            visited.add(n)
+            length = 1
+
+            # count numbers that are greater
+            curr = n
+            while curr + 1 in all:
+                length += 1
+                visited.add(curr + 1)
+                curr += 1
+            # count number that are less
+            curr = n
+            while curr - 1 in all:
+                length += 1
+                visited.add(curr - 1)
+                curr -= 1
+
+            max_val = max(max_val, length)
+        return max_val
+
+        # one way solution
         max_len = 0
         s = set(nums)
         used = set()
