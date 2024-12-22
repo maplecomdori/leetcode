@@ -1,16 +1,28 @@
 class Solution:
     def customSortString(self, order: str, s: str) -> str:
+        counter = Counter(s)
         res = []
-        set_order = set(order)
-        s_counter = Counter(s)
 
-        for o_char in order:
-            for s_char in s_counter:
-                if s_char == o_char:
-                    res.append(s_char * s_counter[s_char])
+        # append characters of 's' that appear in 'order'
+        for c in order:
+            if c in counter:
+                res.append(c * counter[c])
+            del counter[c]
 
-        # append char in s that is not in order
-        for s_char in s:
-            if s_char not in set_order:
-                res.append(s_char)
+        # append unused letter
+        for c in counter:
+            res.append(c * counter[c])
+
         return "".join(res)
+
+
+"""
+order   s       result
+cba     abcd    cbad
+
+bcafg   abcd    bcafg
+
+cba     abcxxx   cbaxxx
+
+cbazzz  abcd    cbad
+"""
