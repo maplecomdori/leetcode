@@ -1,6 +1,6 @@
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> bool:
-        # neetcode
+
         set_word = set(wordDict)
         dp = [False] * (len(s) + 1)
         dp[-1] = True
@@ -15,7 +15,27 @@ class Solution:
 
         return dp[0]
 
+        # top down
+        def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+            word_set = set(wordDict)
+            dp = {}
 
+            def rec(i):
+                if i == len(s):
+                    return True
+                if i in dp:
+                    return dp[i]
+
+                for j in range(i + 1, len(s) + 1):
+                    substring = s[i:j]
+                    if substring in word_set:
+                        if rec(j):
+                            dp[i] = True
+                            return True
+                dp[i] = False
+                return False
+
+            return rec(0)
 
 
 """
