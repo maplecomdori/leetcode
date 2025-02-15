@@ -1,5 +1,18 @@
 class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
+        char_to_idx = {}  # remember the last index the char appeared
+        left = 0
+        max_len = 0
+        for right in range(len(s)):
+            char = s[right]
+            if char in char_to_idx and char_to_idx[char] >= left:
+                # 'abba' would fail without the second condition
+                left = 1 + char_to_idx[char]
+            max_len = max(max_len, right - left + 1)
+            char_to_idx[char] = right
+
+        return max_len
+        ########################################################
         seen = set()
         l = 0
         max_len = 0
@@ -11,7 +24,7 @@ class Solution:
             max_len = max(max_len, r - l + 1)
 
         return max_len
-        ##############################
+        ########################################################
         d = {}  # {c: last_index}
         l = 0
         max_len = 0
