@@ -30,3 +30,28 @@ class Solution:
             return copy
 
         return rec(node)
+
+        # iterative solution
+        if not node:
+            return node
+
+        node_to_copy = {}  # {old_node: new_copy}
+        queue = deque()
+        queue.append(node)
+        node_to_copy[node] = Node(node.val)
+
+        while queue:
+            curr = queue.popleft()
+
+            for nei in curr.neighbors:
+                if nei not in node_to_copy:
+                    nei_clone = Node(nei.val)
+                    node_to_copy[nei] = nei_clone
+
+                    node_to_copy[curr].neighbors.append(nei_clone)
+                    queue.append(nei)
+                else:
+                    nei_clone = node_to_copy[nei]
+                    node_to_copy[curr].neighbors.append(nei_clone)
+
+        return node_to_copy[node]
